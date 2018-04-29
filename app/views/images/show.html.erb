@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>File name:</strong>
+  <%= @image.file_name %>
+</p>
+
+<p>
+  <strong>Hocr data:</strong>
+  <%= @image.hocr_data %>
+</p>
+
+<p>
+  <strong>File:</strong>
+	<%= image_tag @image.associated_image.url %>
+</p>
+
+<%= link_to 'Download', @image.associated_image.url, download: '' %>
+<%= link_to 'Edit', edit_image_path(@image) %> |
+<%= link_to 'Back', images_path %>
