@@ -1,14 +1,13 @@
 class Image < ApplicationRecord
-	# belongs_to :unprocessed_image, class_name: "Image", foreign_key: "unprocessed_image_id", optional: true
-	# has_one :marked_up_image, class_name: "Image", foreign_key: "unprocessed_image_id"
-
+	# original_uploaded_image
 	has_attached_file :associated_image
 	has_attached_file :marked_up_image
 
 	validates_attachment :associated_image, presence: true
-	# Validate content type
 	validates_attachment_content_type :associated_image, content_type: /\Aimage/
-	# Validate filename
 	validates_attachment_file_name :associated_image, matches: [/png\z/]
+
+	validates_attachment_content_type :marked_up_image, content_type: /\Aimage/
+	validates_attachment_file_name :marked_up_image, matches: [/png\z/]
 
 end
