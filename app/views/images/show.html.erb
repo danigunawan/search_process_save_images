@@ -15,6 +15,13 @@
 	<%= image_tag @image.associated_image.url %>
 </p>
 
+<p>String Data: <%= @image_string_data %></p>
+<p>Words: <%= @words %></p>
+
+	<%#= image_tag @result %>
+
+<!-- RTesseract::Box.new('test_words.png').words -->
+
 <%= link_to 'Download', @image.associated_image.url, download: '' %>
 <%= link_to 'Edit', edit_image_path(@image) %> |
 <%= link_to 'Back', images_path %>

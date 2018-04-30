@@ -34,8 +34,14 @@ gem 'jbuilder', '~> 2.5'
 
 # Quick User Login and Auth
 # gem 'devise'
-# For image processing - require 'rmagick'
-# gem 'rmagick'
+# For image processing - tesseract dependency
+gem 'rmagick'
+# For image processing - extracting hOCR data
+gem 'rtesseract'
+
+# gem 'tesseract-ocr'
+
+
 # For file attachment
 gem "paperclip", "~> 6.0.0"
 
