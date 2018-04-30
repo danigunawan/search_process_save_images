@@ -1,27 +1,31 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>File name:</strong>
-  <%= @image.file_name %>
+  <strong>File Description:</strong>
+  <%= @image.description %>
 </p>
 
 <p>
-  <strong>Hocr data:</strong>
-  <%= @image.hocr_data %>
+  <strong>File Uploaded At:</strong>
+  <%= @image.created_at.strftime("%B %d, %Y") %>
 </p>
 
 <p>
-  <strong>File:</strong>
+  <strong>Original File Name:</strong>
+  <%= @image.associated_image_file_name %>
+</p>
+
+<p>
+  <strong>Original Image:</strong>
 	<%= image_tag @image.associated_image.url %>
 </p>
 
-<p>String Data: <%= @image_string_data %></p>
-<p>Words: <%= @words %></p>
+<p>
+  <strong>Marked Up Image:</strong>
+	<%= image_tag @image.marked_up_image.url %>
+</p>
 
-	<%#= image_tag @result %>
-
-<!-- RTesseract::Box.new('test_words.png').words -->
-
-<%= link_to 'Download', @image.associated_image.url, download: '' %>
+<%= link_to 'Download Original Image', @image.associated_image.url, download: '' %>
+<%= link_to 'Download Marked Up Image', @image.marked_up_image.url, download: '' %>
 <%= link_to 'Edit', edit_image_path(@image) %> |
 <%= link_to 'Back', images_path %>

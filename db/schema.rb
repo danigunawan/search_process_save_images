@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180428210507) do
+ActiveRecord::Schema.define(version: 20180430173336) do
 
   create_table "images", force: :cascade do |t|
-    t.string   "file_name"
+    t.string   "description"
     t.text     "hocr_data"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
@@ -21,6 +21,10 @@ ActiveRecord::Schema.define(version: 20180428210507) do
     t.string   "associated_image_content_type"
     t.integer  "associated_image_file_size"
     t.datetime "associated_image_updated_at"
+    t.string   "marked_up_image_file_name"
+    t.string   "marked_up_image_content_type"
+    t.integer  "marked_up_image_file_size"
+    t.datetime "marked_up_image_updated_at"
   end
 
 end

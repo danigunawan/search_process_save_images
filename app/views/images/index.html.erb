@@ -5,19 +5,27 @@
 <table>
   <thead>
     <tr>
-      <th>File name</th>
-      <th>Hocr data</th>
-      <th colspan="3"></th>
+      <th>Description</th>
+      <th>Upload Date</th>      
+      <th>Original File Name</th>      
+      <th>Original Image</th>
+      <th>Download Original Image</th>
+      <th>Marked Up Image</th>
+      <th>Download Marked Up Image</th>
+      <th colspan="6"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @images.each do |image| %>
       <tr>
-        <td><%= image.file_name %></td>
-        <td><%= image.hocr_data %></td>
+        <td><%= image.description %></td>
+        <td><%= image.created_at.strftime("%B %d, %Y") %></td>
+        <td><%= image.associated_image_file_name %></td>
         <td><%= image_tag image.associated_image.url %></td>
-        <td><%= link_to 'Download', image.associated_image.url, download: '' %></td>
+        <td><%= link_to 'Download Original Image', image.associated_image.url, download: '' %></td>
+        <td><%= image_tag image.marked_up_image.url %></td>
+        <td><%= link_to 'Download Marked Up Image', image.marked_up_image.url, download: '' %></td>
         <td><%= link_to 'Show', image %></td>
         <td><%= link_to 'Edit', edit_image_path(image) %></td>
         <td><%= link_to 'Destroy', image, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -14,42 +14,6 @@ class ImagesController < ApplicationController
   # GET /images/1
   # GET /images/1.json
   def show
-    file_name = @image.associated_image.url.split("?")[0].prepend("public")
-    tesseract_box = RTesseract::Box.new(file_name)
-    @image_string_data = tesseract_box.to_s
-    # @words = tesseract_box.words
-
-    # "words" by default includes dollar amounts, etc.
-
-    # does not include digits, dollars, blank entries--words only. repetitions included
-    @words = tesseract_box.words.keep_if{|w| w[:word].to_f == 0 && w[:word].index("$").nil? && !w[:word].blank?}
-
-    image = Magick::Image.read(file_name).first
-
-    @words.each do |word|
-      bounding_box = Magick::Draw.new
-      bounding_box.fill = "Transparent"
-      bounding_box.stroke = 'black'
-      bounding_box.stroke_width = 2
-      bounding_box.rectangle word[:x_start], word[:y_start], word[:x_end], word[:y_end]
-      bounding_box.draw(image)
-    end
-
-
-    image.format = 'PNG'
-
-
-    file = Paperclip::Tempfile.new(["processed", ".png"])
-    file.path
-    image.write(file.path)
-
-    new_image = Image.new
-
-    file = File.open(file.path)
-    new_image.associated_image = file
-    file.close
-    new_image.save!
-
   end
 
   # GET /images/new
@@ -68,6 +32,7 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
+        process_image
         # call service object to process uploaded image
         # save new image, to be called on @image.marked_up_image
         format.html { redirect_to @image, notice: 'Image was successfully created.' }
@@ -104,6 +69,34 @@ class ImagesController < ApplicationController
   end
 
   private
+
+    def process_image
+      file_name = @image.associated_image.url.split("?")[0].prepend("public")
+      tesseract_box = RTesseract::Box.new(file_name)
+      @image_string_data = tesseract_box.to_s
+      # "words" by default includes dollar amounts, dates, digits, etc.
+      @words = tesseract_box.words.keep_if{|w| w[:word].to_f == 0 && w[:word].index("$").nil? && !w[:word].blank?}
+
+      image = Magick::Image.read(file_name).first
+
+      @words.each do |word|
+        bounding_box = Magick::Draw.new
+        bounding_box.fill = "Transparent"
+        bounding_box.stroke = 'black'
+        bounding_box.stroke_width = 2
+        bounding_box.rectangle word[:x_start], word[:y_start], word[:x_end], word[:y_end]
+        bounding_box.draw(image)
+      end
+
+      image.format = 'PNG'
+      file = Paperclip::Tempfile.new(["processed", ".png"])
+      file.path
+      image.write(file.path)
+
+      file = File.open(file.path)
+      @image.update(marked_up_image: file)
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_image
       @image = Image.find(params[:id])
@@ -111,6 +104,6 @@ class ImagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def image_params
-      params.require(:image).permit(:file_name, :hocr_data, :associated_image)
+      params.require(:image).permit(:description, :associated_image)
     end
 end
