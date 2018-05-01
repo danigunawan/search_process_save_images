@@ -26,6 +26,9 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # serve static files. Enable Rails to serve assets from 'public' or 'tmp' folder
+  config.serve_static_files = true
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 

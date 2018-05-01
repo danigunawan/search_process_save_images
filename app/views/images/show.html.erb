@@ -24,10 +24,11 @@
 
 <p>
   <strong>Marked Up Image:</strong>
-	<%= image_tag @image.marked_up_image.url %>
+	<%= image_tag @image.marked_up_image.url, alt: "Image is still being processed; thank you for being patient!" %>
 </p>
 
 <%= link_to 'Download Original Image', @image.associated_image.url, download: '' %>
 <%= link_to 'Download Marked Up Image', @image.marked_up_image.url, download: '' %>
-<%= link_to 'Edit', edit_image_path(@image) %> |
+<%= link_to 'Destroy', @image, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'New Image', new_image_path %>
 <%= link_to 'Back', images_path %>

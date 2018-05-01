@@ -1,9 +1,10 @@
+# class ProcessIntoMarkedUpImage
 class CreateBoundingBoxesOnImageProcessingService
 	attr_reader :params
 
 	def initialize(params)
 		@image = params[:image]
-		@search_word_param = params[:search_word]
+		@search_word_param = params[:search_word].downcase if params[:search_word]
 
       	@original_file_name = find_file_name	
 		@word_data = @search_word_param ? search_hocr_data_for_search_word_param : tesseract_process_image_find_words
@@ -18,13 +19,13 @@ class CreateBoundingBoxesOnImageProcessingService
     private
 
 	def find_file_name
-    	@image.associated_image.url.split("?")[0].prepend("public").gsub("//", "/")
-    end
+		@image.associated_image.url.split("?")[0].prepend("public").gsub("//", "/")
+	end
 
     def tesseract_process_image_find_words
-		tesseract_box = RTesseract::Box.new(@original_file_name)
-		# "words" by default includes dollar amounts, dates, digits, etc.
-		tesseract_box.words.keep_if{ |w| w[:word].to_f == 0 && w[:word].index("$").nil? && !w[:word].blank? }
+		all_words_dollars_dates_digits_in_image = RTesseract::Box.new(@original_file_name).words
+		words = all_words_dollars_dates_digits_in_image.keep_if{ |w| w[:word].to_f == 0 && w[:word].index("$").nil? && !w[:word].blank? }    
+    	no_punctuation_or_capitalization_hyphenated_words = words.each{|word_data| word_data[:word] = word_data[:word].downcase.scan(/[a-z]|-/).join }
     end
 
     def search_hocr_data_for_search_word_param

@@ -38,12 +38,10 @@ gem 'jbuilder', '~> 2.5'
 gem 'rmagick'
 # For image processing - extracting hOCR data
 gem 'rtesseract'
-
-# gem 'tesseract-ocr'
-
-
 # For file attachment
 gem "paperclip", "~> 6.0.0"
+# for processing newly uploaded images in the background with ActiveJob :
+gem 'sucker_punch', '~> 2.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

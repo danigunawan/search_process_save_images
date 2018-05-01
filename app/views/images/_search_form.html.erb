@@ -1,5 +1,5 @@
 Search Image for the following Word:
   <%= form_tag image_search_word_results_path(@image), method: :get do %>
-      <%= text_field_tag :search_word, params[:search_word], placeholder: "Urgent" %>
+      <%= text_field_tag :search_word, params[:search_word] %>
       <%= submit_tag "Search and Return Marked Up Image" %>
   <% end %>

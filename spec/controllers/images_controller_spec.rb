@@ -21,10 +21,12 @@ RSpec.describe ImagesController, type: :controller do
     end
   end
 
-  describe 'POST #search_for_word' do
-    post :search_for_word, image_id: image_with_hocr_data.id, search_for_word: "Urgent"
-    expect(assigns(:word_included)).to be true
-  end
+  # describe 'GET #search_for_word' do
+  #   it 'returns sucess response' do
+  #     get :search_word_results, image_id: image_with_hocr_data.id, search_word: "Urgent"
+  #     expect(assigns(:image_with_search_results_highlighted)).to_not be_nil
+  #   end
+  # end
 
   describe "GET #new" do
     it "returns a success response" do
