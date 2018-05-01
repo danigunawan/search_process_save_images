@@ -10,4 +10,9 @@ class Image < ApplicationRecord
 	validates_attachment_content_type :marked_up_image, content_type: /\Aimage/
 	validates_attachment_file_name :marked_up_image, matches: [/png\z/]
 
+	after_save :create_marked_up_image_and_hocr_data_attr
+
+	def create_marked_up_image_and_hocr_data_attr
+	    self.update_attributes(CreateBoundingBoxesOnImageProcessingService.new(image: self).call) unless self.hocr_data
+	end	
 end

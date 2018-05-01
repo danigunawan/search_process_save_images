@@ -21,3 +21,7 @@
 .byebug_history
 
 /public/system/images/*
+
+.DS_Store
+/public/*
+/app/assets/images/temporary_uploads/*

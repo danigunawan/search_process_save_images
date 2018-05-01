@@ -12,6 +12,14 @@ class ImagesController < ApplicationController
   def show
   end
 
+  def search_word_results
+    @image = Image.find(params[:image_id])
+    @search_word = params[:search_word]
+
+    @image_with_search_results_highlighted = CreateBoundingBoxesOnImageProcessingService.new({image: @image, search_word: @search_word}).call[:marked_up_image]
+    @image_with_search_results_highlighted_path = @image_with_search_results_highlighted.path.partition(Rails.root.join("app", "assets", "images").to_s).last[1..-1]
+  end
+
   # GET /images/new
   def new
     @image = Image.new
@@ -28,8 +36,6 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
-        ProcessUploadedImageService.new(@image.id).process_image 
-               
         format.html { redirect_to @image, notice: 'Image was successfully created.' }
         format.json { render :show, status: :created, location: @image }
       else
@@ -64,7 +70,7 @@ class ImagesController < ApplicationController
   end
 
   private
-
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_image
       @image = Image.find(params[:id])

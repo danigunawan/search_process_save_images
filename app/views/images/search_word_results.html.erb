@@ -1,0 +1,11 @@
+<h3>The word "<%= @search_word %>" has been highlighted in the following image: </h3>
+
+The image, originally named "<%= @image.associated_image_file_name %>" and uploaded on <%= @image.created_at.strftime("%B %d, %Y") %>, can be found in greater detail <%= link_to 'here', image_path(@image) %>. <i>Results are case-sensitive.</i>
+
+</br></br>
+You can also submit another search:
+<%= render partial: "search_form" %>
+
+<%= image_tag @image_with_search_results_highlighted_path %>
+
+<%= link_to 'All Images', images_path %>

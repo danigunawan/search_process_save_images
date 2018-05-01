@@ -4,8 +4,7 @@ RSpec.describe ImagesController, type: :controller do
 
   let(:valid_attributes) { Fabricate.to_params(:image) }
   let(:invalid_attributes) { Fabricate.to_params(:image, associated_image: nil) }
-
-
+  let(:image_with_hocr_data) { Fabricate(:image, hocr_data: "Urgent - please respond by tomorrow") }
   describe "GET #index" do
     it "returns a success response" do
       image = Image.create! valid_attributes
@@ -20,6 +19,11 @@ RSpec.describe ImagesController, type: :controller do
       get :show, params: {id: image.to_param}
       expect(response).to be_success
     end
+  end
+
+  describe 'POST #search_for_word' do
+    post :search_for_word, image_id: image_with_hocr_data.id, search_for_word: "Urgent"
+    expect(assigns(:word_included)).to be true
   end
 
   describe "GET #new" do

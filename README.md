@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a Ruby on Rails application, running Rails 5.0.7 and Ruby 2.3.1.
 
-Things you may want to cover:
 
-* Ruby version
+Prior to running application, ensure ImageMagick and Tesseract are installed locally. On a Mac, this can be done with:
+	
+	brew install imagemagick
+	brew install tesseract
 
-* System dependencies
 
-* Configuration
+Run `bundle install`
 
-* Database creation
+Setup the database: `rake db:create db:migrate`
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Run the test suite with `rspec`
