@@ -1,6 +1,6 @@
 class ImagesController < ApplicationController
   before_action :set_image, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_search_word_params, only: [:search_word_results, :search_image_png]
   # GET /images
   # GET /images.json
   def index
@@ -13,11 +13,11 @@ class ImagesController < ApplicationController
   end
 
   def search_word_results
-    @image = Image.find(params[:image_id])
-    @search_word = params[:search_word]
+  end
 
-    @image_with_search_results_highlighted = CreateBoundingBoxesOnImageProcessingService.new({image: @image, search_word: @search_word}).call[:marked_up_image]
-    @image_with_search_results_highlighted_path = @image_with_search_results_highlighted.path.partition(Rails.root.join("app", "assets", "images").to_s).last[1..-1]
+  def search_image_png
+    @file = CreateBoundingBoxesOnImageProcessingService.new({image: @image, search_word: @search_word}).call[:marked_up_image]
+    send_data @file.read, type: 'image/png', disposition: 'inline'
   end
 
   # GET /images/new
@@ -70,6 +70,11 @@ class ImagesController < ApplicationController
   end
 
   private
+
+    def set_search_word_params
+      @image = Image.find(params[:image_id])
+      @search_word = params[:search_word]
+    end
     
     # Use callbacks to share common setup or constraints between actions.
     def set_image

@@ -55,7 +55,7 @@ class CreateBoundingBoxesOnImageProcessingService
 
     def temporarily_store_and_create_file(image=nil)
     	if @search_word_param
-    		file = File.new("#{Rails.root}/app/assets/images/temporary_uploads/search_results_#{@image.id}.png",'w')
+			file = Tempfile.new("search_results_#{@image.id}.png")    		
     	else
 			image.format = 'PNG'    	
 	    	file = Paperclip::Tempfile.new(["processed", ".png"])
