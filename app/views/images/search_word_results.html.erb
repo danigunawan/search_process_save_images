@@ -8,6 +8,6 @@ You can also submit another search:
 
 <%= render partial: "search_form" %>
 
-<%= image_tag @image_with_search_results_highlighted_path %>
+<%= image_tag image_search_image_png_path(search_word: @search_word) %> 
 
 <%= link_to 'All Images', images_path %>
